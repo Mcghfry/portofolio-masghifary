@@ -223,3 +223,34 @@ body{
 .suggestion-btn:active{
   transform:translateY(0);
 }
+
+.messages{
+  margin-top:20px;
+  max-height:260px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.user-msg,
+.ai-msg{
+  padding:12px 14px;
+  border-radius:14px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.user-msg{
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  align-self:flex-end;
+  text-align:right;
+}
+
+.ai-msg{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  color:#fff;
+  align-self:flex-start;
+}
