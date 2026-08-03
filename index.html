@@ -11,6 +11,43 @@
   <!-- CSS External -->
   <link rel="stylesheet" href="styles.css" />
 </head>
+  <script>
+const WORKER_URL = 'https://masghifary-ai.mcghfry.workers.dev';
+
+// tombol saran otomatis mengisi input
+document.querySelectorAll('.suggestion-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('questionInput').value = btn.textContent;
+  });
+});
+
+async function sendQuestion() {
+  const input = document.getElementById('questionInput');
+  const messages = document.getElementById('messages');
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  messages.innerHTML += `<div class="user-msg">🧑 ${question}</div>`;
+  input.value = '';
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: question })
+    });
+
+    const data = await response.json();
+
+    messages.innerHTML += `<div class="ai-msg">🤖 ${data.reply}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+  } catch (err) {
+    messages.innerHTML += `<div class="ai-msg">⚠️ Failed to connect to AI service.</div>`;
+  }
+}
+</script>
 <body>
 
   <section class="hero">
@@ -33,10 +70,12 @@
         <h2>Ask me!</h2>
         <p class="description">If you have any questions, feel free to ask me anything. I will do my best to answer your questions.</p>
 
-        <form class="ask-form">
-          <input type="text" placeholder="Ask me anything..." required>
-          <button type="submit">Send</button>
-        </form>
+<form class="ask-form" onsubmit="event.preventDefault(); sendQuestion();">
+  <input id="questionInput" type="text" placeholder="Ask me anything..." required>
+  <button type="submit">Send</button>
+</form>
+
+<div id="messages" class="messages"></div>
 
     <!-- Saran pertanyaan -->
     <div class="suggestions">
@@ -52,6 +91,7 @@
         <button type="button" class="suggestion-btn">What is your dream job?</button>
         <button type="button" class="suggestion-btn">Tell me about yourself</button>
       </div>
+
     </div>
   </form>
       </div>
