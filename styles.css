@@ -38,7 +38,7 @@ body{
 .container{
   width:100%;
   max-width:1200px;
-  display:grid;
+  display:flex;
   grid-template-columns:1fr 1fr 1fr;
   align-items:center;
   gap:20px;
@@ -142,7 +142,7 @@ body{
 .container{
   width:100%;
   max-width:1400px;
-  display:grid;
+  display:flex;
 
   /* kiri | foto | chat */
   grid-template-columns:0.9fr 1fr 1.4fr;
@@ -317,17 +317,86 @@ body{
   box-sizing:border-box;
 }
 
-  @media (max-width:600px){
-  .messages{
-    min-height:180px;
-    max-height:420px;
-    padding:14px;
+/* =========================
+   MOBILE FIX
+========================= */
+@media (max-width:900px){
+
+  .hero{
+    align-items:flex-start;
+    padding:20px 16px 40px;
+    min-height:auto;
   }
 
-  .user-msg,
-  .ai-msg{
-    font-size:14px;
-    padding:12px 14px;
+  .container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:24px;
+    width:100%;
+  }
+
+  .left-text{
+    font-size:52px;
+    line-height:0.95;
+    transform:none;
+    margin-top:0;
+    text-align:center;
+  }
+
+  .profile-card{
+    width:260px;
+    height:380px;
+  }
+
+  .right-box{
+    width:100%;
+    max-width:100%;
+    padding-left:0;
+    align-items:stretch;
+    text-align:left;
+  }
+
+  .right-box h2{
+    font-size:52px;
+    text-align:center;
+  }
+
+  .description{
+    max-width:100%;
+    text-align:left;
+  }
+
+  .ask-form{
+    width:100%;
+    max-width:100%;
+  }
+
+  .ask-form input{
+    width:100%;
+  }
+
+  .messages{
+    width:100%;
+    max-width:100%;
+    min-height:180px;
+    max-height:360px;
+  }
+}
+
+@media (max-width:480px){
+
+  .left-text{
+    font-size:44px;
+  }
+
+  .profile-card{
+    width:240px;
+    height:350px;
+  }
+
+  .right-box h2{
+    font-size:44px;
   }
 }
   
