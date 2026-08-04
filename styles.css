@@ -484,7 +484,7 @@ body{
   background:rgba(255,255,255,0.14);
   border:1px solid rgba(255,255,255,0.10);
 
-  color:#000000;
+  color:#ffffff;
 
   font-size:15px;
   line-height:1.8;
@@ -561,7 +561,6 @@ body{
     min-height:180px;
     max-height:360px;
   }
-}
 
 @media (max-width:480px){
 
