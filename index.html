@@ -28,7 +28,7 @@ async function sendQuestion() {
 
   if (!question) return;
 
-  messages.innerHTML += `<div class="user-msg">🧑 ${question}</div>`;
+  messages.innerHTML += `<div class="user-msg"> You: ${question}</div>`;
   input.value = '';
 
   try {
