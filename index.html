@@ -92,7 +92,20 @@ async function sendQuestion() {
   <button type="submit">Send</button>
 </form>
 
-<div id="messages" class="messages"></div>
+<div id="messages" class="messages"
+     style="width:100%;
+            min-height:220px;
+            max-height:520px;
+            overflow-y:auto;
+            padding:20px;
+            border-radius:22px;
+            background:rgba(255,255,255,0.12);
+            border:1px solid rgba(255,255,255,0.18);
+            box-shadow:0 12px 30px rgba(0,0,0,0.28);
+            display:flex;
+            flex-direction:column;
+            gap:14px;">
+</div>
       </div>
 
     </div>
@@ -114,9 +127,24 @@ async function sendQuestion() {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
+  async function sendQuestion() {
+  const input = document.getElementById('questionInput');
+  const messages = document.getElementById('messages');
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  // Bubble user
+  const userDiv = document.createElement('div');
+  userDiv.className = 'user-msg';
+  userDiv.textContent = 'You : ' + question;
+  messages.appendChild(userDiv);
+
   input.value = '';
-  messages.scrollTop = messages.scrollHeight;
+
+  requestAnimationFrame(() => {
+    messages.scrollTop = messages.scrollHeight;
+  });
 
   try {
     const response = await fetch(WORKER_URL, {
@@ -127,16 +155,27 @@ async function sendQuestion() {
 
     const data = await response.json();
 
-    const safeReply = (data.reply || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    // Bubble AI
+    const aiDiv = document.createElement('div');
+    aiDiv.className = 'ai-msg';
+    aiDiv.textContent = 'Zenithra👧🏻 : ' + (data.reply || 'No response');
+    messages.appendChild(aiDiv);
 
-    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: ${safeReply}</div>`;
-    messages.scrollTop = messages.scrollHeight;
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
 
   } catch (err) {
-    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: Failed to connect to AI service.</div>`;
+    const errDiv = document.createElement('div');
+    errDiv.className = 'ai-msg';
+    errDiv.textContent = 'Zenithra👧🏻 : Failed to connect to AI service.';
+    messages.appendChild(errDiv);
+
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
+  }
+}
     messages.scrollTop = messages.scrollHeight;
   }
 }
