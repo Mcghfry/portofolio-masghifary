@@ -279,3 +279,69 @@ body{
   }
 }
 
+/* ===== FIX MOBILE FULL WIDTH ===== */
+html, body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden; /* cegah geser kanan-kiri */
+}
+
+.hero{
+  width:100%;
+  overflow-x:hidden;
+}
+
+.container{
+  width:100%;
+  max-width:100%;
+  padding:0;
+  margin:0 auto;
+}
+
+.right-box,
+.ask-form,
+.messages{
+  width:100%;
+  max-width:100%;
+}
+
+@media screen and (max-width:900px){
+
+  .hero{
+    padding:20px 14px 40px;
+  }
+
+  .container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+  }
+
+  .left-text{
+    font-size:46px;
+    text-align:center;
+    transform:none;
+  }
+
+  .profile-card{
+    width:min(240px, 78vw); /* otomatis menyesuaikan layar */
+    height:auto;
+    aspect-ratio:300/440;
+  }
+
+  .right-box{
+    width:100%;
+    padding-left:0;
+    align-items:stretch;
+  }
+
+  .right-box h2{
+    text-align:center;
+    font-size:48px;
+  }
+
+  .messages{
+    max-height:340px;
+  }
+}
