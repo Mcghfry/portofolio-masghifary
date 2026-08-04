@@ -27,7 +27,24 @@ async function sendQuestion() {
   const question = input.value.trim();
 
   if (!question) return;
+const question = input.value.trim();
+if (!question) return;
 
+// buat safeQuestion terlebih dahulu
+const safeQuestion = question
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;');
+
+// tampilkan pesan user
+messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
+
+// kosongkan input
+input.value = '';
+
+// auto scroll
+messages.scrollTop = messages.scrollHeight;
+  
   messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
   input.value = '';
 
