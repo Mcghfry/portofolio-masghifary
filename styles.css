@@ -223,3 +223,59 @@ body{
   }
 }
 
+/* ===== FORCE MOBILE LAYOUT ===== */
+@media screen and (max-width: 900px){
+
+  .container{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    gap:24px !important;
+  }
+
+  .left-text{
+    transform:none !important;
+    text-align:center !important;
+    font-size:48px !important;
+    margin-top:0 !important;
+  }
+
+  .profile-wrapper{
+    width:100%;
+    display:flex;
+    justify-content:center;
+  }
+
+  .profile-card{
+    width:240px !important;
+    height:350px !important;
+  }
+
+  .right-box{
+    width:100% !important;
+    max-width:100% !important;
+    padding-left:0 !important;
+    align-items:stretch !important;
+  }
+
+  .right-box h2{
+    text-align:center !important;
+    font-size:48px !important;
+  }
+
+  .description{
+    text-align:left !important;
+  }
+
+  .ask-form{
+    width:100% !important;
+  }
+
+  .messages{
+    width:100% !important;
+    max-width:100% !important;
+  }
+}
+
