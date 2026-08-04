@@ -44,11 +44,11 @@ async function sendQuestion() {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    messages.innerHTML += `<div class="ai-msg">Zenithra : ${safeReply}</div>`;
+    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: ${safeReply}</div>`;
     messages.scrollTop = messages.scrollHeight;
 
   } catch (err) {
-    messages.innerHTML += `<div class="ai-msg">Zenithra : Failed to connect to AI service.</div>`;
+    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: Failed to connect to AI service.</div>`;
     messages.scrollTop = messages.scrollHeight;
   }
 }
