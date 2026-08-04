@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
   <script>
+const WORKER_URL = 'https://masmasbiasa.bacok-fary.workers.dev/';
+
 async function sendQuestion() {
   const input = document.getElementById('questionInput');
   const messages = document.getElementById('messages');
@@ -19,19 +21,13 @@ async function sendQuestion() {
 
   if (!question) return;
 
-  // amankan teks pertanyaan
   const safeQuestion = question
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-  // tampilkan pesan user
   messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
-
-  // kosongkan input
   input.value = '';
-
-  // auto scroll
   messages.scrollTop = messages.scrollHeight;
 
   try {
@@ -43,16 +39,12 @@ async function sendQuestion() {
 
     const data = await response.json();
 
-    // amankan jawaban AI
     const safeReply = (data.reply || '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    // tampilkan jawaban AI
     messages.innerHTML += `<div class="ai-msg">Zenithra : ${safeReply}</div>`;
-
-    // auto scroll lagi
     messages.scrollTop = messages.scrollHeight;
 
   } catch (err) {
@@ -60,6 +52,15 @@ async function sendQuestion() {
     messages.scrollTop = messages.scrollHeight;
   }
 }
+</script>
+  <script>
+// tombol saran otomatis mengisi input
+document.querySelectorAll('.suggestion-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.getElementById('questionInput').value = btn.textContent;
+    document.getElementById('questionInput').focus();
+  });
+});
 </script>
 <body>
 
@@ -106,7 +107,7 @@ async function sendQuestion() {
       </div>
 
     </div>
-  </form>
+
       </div>
 
     </div>
