@@ -21,14 +21,18 @@ async function sendQuestion() {
 
   if (!question) return;
 
-  const safeQuestion = question
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  // Pesan user
+  const userDiv = document.createElement('div');
+  userDiv.className = 'user-msg';
+  userDiv.textContent = 'You : ' + question;
+  messages.appendChild(userDiv);
 
-  messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
   input.value = '';
-  messages.scrollTop = messages.scrollHeight;
+
+  // Scroll ke bawah
+  requestAnimationFrame(() => {
+    messages.scrollTop = messages.scrollHeight;
+  });
 
   try {
     const response = await fetch(WORKER_URL, {
@@ -39,31 +43,29 @@ async function sendQuestion() {
 
     const data = await response.json();
 
-    const safeReply = (data.reply || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+    // Pesan AI
+    const aiDiv = document.createElement('div');
+    aiDiv.className = 'ai-msg';
+    aiDiv.textContent = 'Zenithra : ' + (data.reply || 'No response');
+    messages.appendChild(aiDiv);
 
-    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: ${safeReply}</div>`;
-    messages.scrollTop = messages.scrollHeight;
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
 
   } catch (err) {
-    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: Failed to connect to AI service.</div>`;
-    messages.scrollTop = messages.scrollHeight;
+    const errDiv = document.createElement('div');
+    errDiv.className = 'ai-msg';
+    errDiv.textContent = 'Zenithra : Failed to connect to AI service.';
+    messages.appendChild(errDiv);
+
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
   }
 }
 </script>
-  <script>
-// tombol saran otomatis mengisi input
-document.querySelectorAll('.suggestion-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.getElementById('questionInput').value = btn.textContent;
-    document.getElementById('questionInput').focus();
-  });
-});
-</script>
 <body>
-
   <section class="hero">
     <div class="container">
 
@@ -97,4 +99,46 @@ document.querySelectorAll('.suggestion-btn').forEach(btn => {
   </section>
 
 </body>
+  <script>
+const WORKER_URL = 'https://masmasbiasa.bacok-fary.workers.dev';
+
+async function sendQuestion() {
+  const input = document.getElementById('questionInput');
+  const messages = document.getElementById('messages');
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  const safeQuestion = question
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  messages.innerHTML += `<div class="user-msg">You : ${safeQuestion}</div>`;
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: question })
+    });
+
+    const data = await response.json();
+
+    const safeReply = (data.reply || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: ${safeReply}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+  } catch (err) {
+    messages.innerHTML += `<div class="ai-msg">Zenithra👧🏻: Failed to connect to AI service.</div>`;
+    messages.scrollTop = messages.scrollHeight;
+  }
+}
+</script>
 </html>
