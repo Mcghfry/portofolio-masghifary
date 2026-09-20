@@ -47,7 +47,16 @@ async function sendQuestion() {
     // Pesan AI
     const aiDiv = document.createElement('div');
     aiDiv.className = 'ai-msg';
-    aiDiv.textContent = 'Zenithra👧🏼 : ' + (data.reply || 'No response');
+    if (response.ok && data.reply) {
+  aiDiv.textContent =
+    'Zenithra👧🏼 : ' + data.reply;
+} else {
+  aiDiv.textContent =
+    'Zenithra👧🏼 : ' +
+    (data.error || 'AI service error');
+
+  console.error('Worker response:', data);
+}
     messages.appendChild(aiDiv);
 
     requestAnimationFrame(() => {
