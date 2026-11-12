@@ -10,33 +10,6 @@
 
   <!-- CSS External -->
   <link rel="stylesheet" href="styles.css" />
-  <!-- Tampilan indikator AI -->
-  <style>
-    .ai-thinking {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .thinking-dots { display: inline-flex; gap: 5px; }
-    .thinking-dots span {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      animation: thinking-pulse 1.2s ease-in-out infinite;
-    }
-    .thinking-dots span:nth-child(2) { animation-delay: .15s; }
-    .thinking-dots span:nth-child(3) { animation-delay: .3s; }
-    @keyframes thinking-pulse {
-      0%, 80%, 100% { opacity: .35; transform: translateY(0); }
-      40% { opacity: 1; transform: translateY(-4px); }
-    }
-    .ask-form button:disabled { opacity: .65; cursor: wait; }
-    @media (prefers-reduced-motion: reduce) {
-      .thinking-dots span { animation: none; }
-    }
-  </style>
 </head>
   
   <script>
@@ -113,6 +86,53 @@ async function sendQuestion() {
     scrollToLatest();
   }
 }
+
+// Slideshow foto profil: letakkan foto di folder yang sama dengan index.html.
+const profilePhotos = ['mypt.png', 'mypt-2.png', 'mypt-3.png'];
+let currentProfilePhoto = 0;
+let profileSlideTimer;
+
+function showProfilePhoto(index) {
+  const image = document.getElementById('profilePhoto');
+  const counter = document.getElementById('profilePhotoCounter');
+  if (!image || !profilePhotos.length) return;
+
+  currentProfilePhoto = (index + profilePhotos.length) % profilePhotos.length;
+  image.classList.remove('photo-enter');
+  image.src = profilePhotos[currentProfilePhoto];
+  image.alt = `Foto profil ${currentProfilePhoto + 1}`;
+  void image.offsetWidth;
+  image.classList.add('photo-enter');
+
+  if (counter) {
+    counter.textContent = `${currentProfilePhoto + 1} / ${profilePhotos.length}`;
+  }
+}
+
+function startProfileSlideshow() {
+  clearInterval(profileSlideTimer);
+  profileSlideTimer = setInterval(() => {
+    showProfilePhoto(currentProfilePhoto + 1);
+  }, 5000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const previous = document.getElementById('previousProfilePhoto');
+  const next = document.getElementById('nextProfilePhoto');
+
+  previous?.addEventListener('click', () => {
+    showProfilePhoto(currentProfilePhoto - 1);
+    startProfileSlideshow();
+  });
+
+  next?.addEventListener('click', () => {
+    showProfilePhoto(currentProfilePhoto + 1);
+    startProfileSlideshow();
+  });
+
+  showProfilePhoto(0);
+  startProfileSlideshow();
+});
 </script>
   
 <body>
@@ -127,7 +147,12 @@ async function sendQuestion() {
       <!-- Foto tengah -->
       <div class="profile-wrapper">
         <div class="profile-card">
-          <img src="mypt.png" alt="Foto Profil">
+          <img id="profilePhoto" src="mypt.png" alt="Foto profil 1">
+          <button class="photo-nav photo-nav-previous" id="previousProfilePhoto"
+                  type="button" aria-label="Foto sebelumnya">‹</button>
+          <button class="photo-nav photo-nav-next" id="nextProfilePhoto"
+                  type="button" aria-label="Foto berikutnya">›</button>
+          <span class="photo-counter" id="profilePhotoCounter" aria-live="polite">1 / 3</span>
         </div>
       </div>
 
