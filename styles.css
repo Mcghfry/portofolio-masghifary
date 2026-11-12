@@ -345,3 +345,104 @@ html, body{
     max-height:340px;
   }
 }
+
+/* Indikator saat Zenithra menyiapkan jawaban */
+.ai-thinking{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.thinking-dots{
+  display:inline-flex;
+  gap:5px;
+}
+
+.thinking-dots span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+  animation:thinking-pulse 1.2s ease-in-out infinite;
+}
+
+.thinking-dots span:nth-child(2){animation-delay:.15s}
+.thinking-dots span:nth-child(3){animation-delay:.3s}
+
+@keyframes thinking-pulse{
+  0%,80%,100%{opacity:.35;transform:translateY(0)}
+  40%{opacity:1;transform:translateY(-4px)}
+}
+
+.ask-form button:disabled{opacity:.65;cursor:wait}
+
+/* Navigasi slideshow foto profil */
+.profile-card{
+  position:relative;
+}
+
+.profile-card img{
+  transition:opacity .25s ease, transform .25s ease;
+}
+
+.profile-card img.photo-enter{
+  animation:profile-photo-enter .55s ease both;
+}
+
+@keyframes profile-photo-enter{
+  from{opacity:.25;transform:scale(1.025)}
+  to{opacity:1;transform:scale(1)}
+}
+
+.photo-nav{
+  position:absolute;
+  top:50%;
+  z-index:2;
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:50%;
+  background:rgba(10,20,45,.58);
+  color:#fff;
+  font-size:27px;
+  line-height:1;
+  cursor:pointer;
+  transform:translateY(-50%);
+  transition:background .2s ease, transform .2s ease;
+}
+
+.photo-nav:hover{
+  background:rgba(10,20,45,.85);
+  transform:translateY(-50%) scale(1.08);
+}
+
+.photo-nav:focus-visible{
+  outline:3px solid #fff;
+  outline-offset:3px;
+}
+
+.photo-nav-previous{left:12px}
+.photo-nav-next{right:12px}
+
+.photo-counter{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  z-index:2;
+  padding:4px 9px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  background:rgba(10,20,45,.62);
+  color:#fff;
+  font-size:12px;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .thinking-dots span{animation:none}
+  .profile-card img.photo-enter{animation:none}
+  .photo-nav{transition:none}
+}
+
